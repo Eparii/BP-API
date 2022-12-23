@@ -1,27 +1,14 @@
-from flask import Flask, jsonify
-from flask_restful import Resource, Api
-from flask_cors import CORS
-
-app = Flask(__name__)
-api = Api(app)
-CORS(app)
+from flask_restful import Resource
+from api.models import User
+from api import utils
+from flask import Flask, jsonify, request
 
 
-class Status (Resource):
+class UserAPI(Resource):
     def get(self):
-        try:
-            return {'data': 'Api is Running'}
-        except:
-            return {'data': 'An Error Occurred during fetching Api'}
-
-
-class Sum(Resource):
-    def get(self, a, b):
-        return jsonify({'data': a + b})
-
-
-api.add_resource(Status, '/')
-api.add_resource(Sum, '/add/<int:a>,<int:b>')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        users = User.query.all()
+        users_list = []
+        for user in users:
+            user_dict = utils.create_user_dict(user)
+            users_list.append(user_dict)
+        return jsonify(users=users_list)
