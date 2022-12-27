@@ -1,14 +1,20 @@
 from flask_restful import Resource
-from api.models import User
-from api import utils
 from flask import Flask, jsonify, request
+from api import utils
 
 
 class UserAPI(Resource):
     def get(self):
-        users = User.query.all()
-        users_list = []
-        for user in users:
-            user_dict = utils.create_user_dict(user)
-            users_list.append(user_dict)
-        return jsonify(users=users_list)
+        request_type = request.args.get('request')
+        user_id = request.args.get('user_id')
+        if request_type == 'swipes':
+            swipes_type = request.args.get('type')
+            if swipes_type is None:
+                return "Bad request", 400
+            return utils.create_swipes_json(user_id, swipes_type)
+        elif request_type == 'groups':
+            return utils.create_groups_json(user_id)
+        elif request_type == 'events':
+            return utils.create_events_json(user_id)
+        else:
+            return "Bad request", 400
