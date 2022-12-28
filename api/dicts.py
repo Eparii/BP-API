@@ -3,7 +3,6 @@ from time import strftime
 from api.models import MovieGenre, Genre
 
 
-
 def create_user_dict(user):
     user_dict = {
         "id": user.id,
@@ -24,21 +23,34 @@ def create_swipe_dict(swipe):
 
 
 def create_group_dict(group, members):
-    group_dict = {
-        "id": group.id,
-        "name": group.name,
-        "members": members
-    }
+    if members is not None:
+        group_dict = {
+            "id": group.id,
+            "name": group.name,
+            "members": members
+        }
+    else:
+        group_dict = {
+            "id": group.id,
+            "name": group.name,
+        }
     return group_dict
 
 
 def create_event_dict(event, participators):
-    event_dict = {
-        "id": event.id,
-        "start": event.start.strftime("%d/%m/%Y, %H:%M:%S"),
-        "description": event.description,
-        "participators": participators
-    }
+    if participators is not None:
+        event_dict = {
+            "id": event.id,
+            "start": event.start.strftime("%d/%m/%Y, %H:%M:%S"),
+            "description": event.description,
+            "participators": participators
+        }
+    else:
+        event_dict = {
+            "id": event.id,
+            "start": event.start.strftime("%d/%m/%Y, %H:%M:%S"),
+            "description": event.description,
+        }
     return event_dict
 
 

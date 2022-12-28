@@ -124,3 +124,6 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);
 
+INSERT INTO user_event_t (id_user, id_event) VALUES
+    (1, 1), (2, 1), (3, 1)
+
