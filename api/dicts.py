@@ -68,3 +68,16 @@ def create_movie_dict(movie):
         "genres": genres
     }
     return movie_dict
+
+
+def create_complete_user_dict(user, swipes, groups, events):
+    user_dict = {
+        "id": user.id,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "email": user.email,
+        "swipes": swipes,
+        "groups": groups,
+        "events": events
+    }
+    return user_dict
