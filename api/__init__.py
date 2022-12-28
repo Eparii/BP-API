@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_restful import Api
 from api.variables import db, bcrypt
 
-from api.main import UserAPI
+from api.main import UserAPI, MovieAPI, GroupAPI, EventAPI
 
 
 def create_app(config_class=None):
@@ -21,5 +21,8 @@ def create_app(config_class=None):
     bcrypt.init_app(app)
 
     my_api.add_resource(UserAPI, '/user')
+    my_api.add_resource(MovieAPI, '/movie')
+    my_api.add_resource(GroupAPI, '/group')
+    my_api.add_resource(EventAPI, '/event')
 
     return app
