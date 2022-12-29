@@ -1,6 +1,6 @@
 from time import strftime
 
-from api.models import MovieGenre, Genre
+from api.models import MovieGenre, Genre, User
 
 
 def create_user_dict(user):
@@ -23,15 +23,19 @@ def create_swipe_dict(swipe):
 
 
 def create_group_dict(group, members):
+    owner = User.query.filter_by(id=group.id_owner).first()
+    owner = create_user_dict(owner)
     if members is not None:
         group_dict = {
             "id": group.id,
             "name": group.name,
+            "owner": owner,
             "members": members
         }
     else:
         group_dict = {
             "id": group.id,
+            "owner": owner,
             "name": group.name,
         }
     return group_dict
