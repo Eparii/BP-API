@@ -69,6 +69,7 @@ def create_movie_dict(movie):
         "name": movie.name,
         "release_year": movie.release_year,
         "IMDB_rating": movie.IMDB_rating,
+        "image_url": movie.image_url,
         "genres": genres
     }
     return movie_dict

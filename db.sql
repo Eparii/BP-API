@@ -26,6 +26,7 @@ CREATE TABLE movie_t
     id_movie SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     release_year INT NOT NULL,
+    image_url VARCHAR(500) NOT NULL,
     imdb_rating FLOAT
 );
 
@@ -100,10 +101,10 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
     ('Gustav', 'Svoboda', 'gustav.svoboda@seznam.cz', '$2b$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
     ('Alexandr', 'Veliký', 'alex.big@seznam.cz', '$2c$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y');
 
-INSERT INTO movie_t (name, release_year, IMDB_rating) VALUES
-    ('Interstellar', 2014, 8.6),
-    ('Avatar', 2009, 7.8),
-    ('Top Gun', 1986, 6.9);
+INSERT INTO movie_t (name, release_year, image_url, IMDB_rating) VALUES
+    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6),
+    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8),
+    ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9);
 
 INSERT INTO swipe_t (type, id_user, id_movie) VALUES
     ('like', 1, 1), ('dislike', 1, 2),
