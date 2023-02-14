@@ -107,7 +107,7 @@ INSERT INTO movie_t (name, release_year, image_url, IMDB_rating) VALUES
     ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9);
 
 INSERT INTO swipe_t (type, id_user, id_movie) VALUES
-    ('like', 1, 1), ('dislike', 1, 2),
+    ('like', 1, 1), ('like', 1, 2), ('like', 1, 3),
     ('like', 2, 2), ('dislike', 2, 3),
     ('like', 3, 1), ('like', 3, 3);
 
