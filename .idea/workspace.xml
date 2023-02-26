@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ec1dabe5-c965-4a2b-b366-b8ec5445b216" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +48,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Database Script.db.sql">
+  <component name="RunManager" selected="Flask server.BP-MovieMatcher">
     <configuration name="db.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/db.sql" />
       <script-mode>FILE</script-mode>
@@ -75,6 +73,7 @@
     </configuration>
     <list>
       <item itemvalue="Database Script.db.sql" />
+      <item itemvalue="Flask server.BP-MovieMatcher" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -96,7 +95,7 @@
       <workItem from="1673364355687" duration="25000" />
       <workItem from="1673605987949" duration="303000" />
       <workItem from="1676380933660" duration="63000" />
-      <workItem from="1677440827033" duration="248000" />
+      <workItem from="1677440827033" duration="556000" />
     </task>
     <servers />
   </component>
@@ -113,5 +112,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/BP_API$BP_MovieMatcher.coverage" NAME="BP-MovieMatcher Coverage Results" MODIFIED="1677441520074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
