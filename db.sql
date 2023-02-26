@@ -27,7 +27,8 @@ CREATE TABLE movie_t
     name VARCHAR(50) NOT NULL,
     release_year INT NOT NULL,
     image_url VARCHAR(500) NOT NULL,
-    imdb_rating FLOAT
+    rating FLOAT,
+    description VARCHAR(2048) NOT NULL
 );
 
 CREATE TABLE swipe_t
@@ -101,13 +102,17 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
     ('Gustav', 'Svoboda', 'gustav.svoboda@seznam.cz', '$2b$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
     ('Alexandr', 'Veliký', 'alex.big@seznam.cz', '$2c$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y');
 
-INSERT INTO movie_t (name, release_year, image_url, IMDB_rating) VALUES
-    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6),
-    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8),
-    ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9);
+INSERT INTO movie_t (name, release_year, image_url, rating, description) VALUES
+    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6, 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'),
+    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8, 'In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.'),
+    ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9, 'For Lieutenant Pete''Maverick'' Mitchell and his friend and co-pilot Nick ''Goose'' Bradshaw, being accepted into an elite training school for fighter pilots is a dream come true. But a tragedy, as well as personal demons, will threaten Pete''s dreams of becoming an ace pilot.'),
+    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6, 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'),
+    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8, 'In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.'),
+    ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9, 'For Lieutenant Pete ''Maverick'' Mitchell and his friend and co-pilot Nick ''Goose'' Bradshaw, being accepted into an elite training school for fighter pilots is a dream come true. But a tragedy, as well as personal demons, will threaten Pete''s dreams of becoming an ace pilot.');
 
 INSERT INTO swipe_t (type, id_user, id_movie) VALUES
-    ('like', 1, 1), ('like', 1, 2), ('like', 1, 3),
+    ('like', 1, 2), ('like', 1, 3),
+    ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
     ('like', 2, 2), ('dislike', 2, 3),
     ('like', 3, 1), ('like', 3, 3);
 

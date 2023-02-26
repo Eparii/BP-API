@@ -22,6 +22,7 @@ class Movie(db.Model):
     release_year = db.Column('release_year', db.Integer, nullable=False)
     image_url = db.Column('image_url', db.String(500), nullable=False)
     IMDB_rating = db.Column('imdb_rating', db.Float, nullable=True)
+    description = db.Column('description', db.String(2048), nullable=False)
 
     events_listed = db.relationship('EventMovie', cascade='all, delete-orphan', backref='listed_movie', lazy=True)
     events_chosen = db.relationship('Event', cascade='all, delete-orphan', backref='chosen_movie', lazy=True)
