@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
-from api import utils, dicts
+from api import utils, dicts, db
+from api.models import Swipe
 
 
 class UserAPI(Resource):
@@ -44,3 +45,32 @@ class EventAPI(Resource):
             return event
         else:
             return jsonify(event=event)
+
+
+class SwipeAPI(Resource):
+    def post(self):
+        new_swipe = Swipe(
+            type=request.json['swipe_type'],
+            id_user=int(request.json['user_id']),
+            id_movie=int(request.json['movie_id']),
+        )
+        db.session.add(new_swipe)
+        db.session.commit()
+        return "", 204
+
+    def put(self):
+        user_id = int(request.json['user_id']),
+        movie_id = int(request.json['movie_id']),
+        swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id)[0]
+        swipe.type = request.json['swipe_type']
+        db.session.commit()
+        return "", 204
+
+    def delete(self):
+        movie_id = int(request.args.get('movie_id'))
+        user_id = int(request.args.get('user_id'))
+        swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id)[0]
+        db.session.delete(swipe)
+        db.session.commit()
+        return "", 204
+
