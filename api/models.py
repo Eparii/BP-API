@@ -18,9 +18,9 @@ class User(db.Model):
 class Movie(db.Model):
     __tablename__ = 'movie_t'
     id = db.Column('id_movie', db.Integer, primary_key=True)
-    name = db.Column('name', db.String(50), nullable=False)
+    name = db.Column('name', db.String(255), nullable=False)
     release_year = db.Column('release_year', db.Integer, nullable=False)
-    image_url = db.Column('image_url', db.String(500), nullable=False)
+    image_url = db.Column('image_url', db.String(512), nullable=False)
     rating = db.Column('rating', db.Float, nullable=True)
     description = db.Column('description', db.String(2048), nullable=False)
 

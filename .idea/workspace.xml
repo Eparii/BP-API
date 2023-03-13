@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ec1dabe5-c965-4a2b-b366-b8ec5445b216" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db-credentials" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,10 +47,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../scraper/main.py" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Flask server.BP-MovieMatcher">
+  <component name="RunManager" selected="Database Script.db.sql">
     <configuration name="db.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/db.sql" />
       <script-mode>FILE</script-mode>
@@ -102,7 +100,12 @@
       <workItem from="1676380933660" duration="63000" />
       <workItem from="1677440827033" duration="1844000" />
       <workItem from="1677571772182" duration="1000" />
-      <workItem from="1678113999443" duration="4190000" />
+      <workItem from="1678113999443" duration="5272000" />
+      <workItem from="1678208288200" duration="621000" />
+      <workItem from="1678216257966" duration="629000" />
+      <workItem from="1678219084044" duration="48000" />
+      <workItem from="1678642331172" duration="320000" />
+      <workItem from="1678703940622" duration="608000" />
     </task>
     <servers />
   </component>

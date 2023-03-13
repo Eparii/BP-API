@@ -24,9 +24,9 @@ CREATE TABLE user_t
 CREATE TABLE movie_t
 (
     id_movie SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     release_year INT NOT NULL,
-    image_url VARCHAR(500) NOT NULL,
+    image_url VARCHAR(512) NOT NULL,
     rating FLOAT,
     description VARCHAR(2048) NOT NULL
 );
@@ -102,27 +102,34 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
     ('Gustav', 'Svoboda', 'gustav.svoboda@seznam.cz', '$2b$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
     ('Alexandr', 'Veliký', 'alex.big@seznam.cz', '$2c$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y');
 
-INSERT INTO movie_t (name, release_year, image_url, rating, description) VALUES
-    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6, 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'),
-    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8, 'In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.'),
-    ('How to Train Your Dragon: The Hidden World', 2019, 'https://www.themoviedb.org/t/p/original/xvx4Yhf0DVH8G4LzNISpMfFBDy2.jpg', 7.8, 'As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.'),
-    ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9, 'For Lieutenant Pete ''Maverick'' Mitchell and his friend and co-pilot Nick ''Goose'' Bradshaw, being accepted into an elite training school for fighter pilots is a dream come true. But a tragedy, as well as personal demons, will threaten Pete''s dreams of becoming an ace pilot.'),
-    ('How to Train Your Dragon', 2010, 'https://www.themoviedb.org/t/p/original/ygGmAO60t8GyqUo9xYeYxSZAR3b.jpg', 7.8, 'As the son of a Viking leader on the cusp of manhood, shy Hiccup Horrendous Haddock III faces a rite of passage: he must kill a dragon to prove his warrior mettle. But after downing a feared dragon, he realizes that he no longer wants to destroy it, and instead befriends the beast – which he names Toothless – much to the chagrin of his warrior father.'),
-    ('Avengers: Infinity War', 2018, 'https://www.themoviedb.org/t/p/original/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg', 8.3, 'As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.'),
-    ('Once Upon a Time in the West', 1968, 'https://www.themoviedb.org/t/p/original/qbYgqOczabWNn2XKwgMtVrntD6P.jpg', 8.3, 'As the railroad builders advance unstoppably through the Arizona desert on their way to the sea, Jill arrives in the small town of Flagstone with the intention of starting a new life.'),
-    ('#FriendButMarried', 2018, 'https://www.themoviedb.org/t/p/original/splV83B3CqMCbHUunoyaUoRUM60.jpg', 6.8, 'Pining for his high school crush for years, a young man puts up his best efforts to move out of the friend zone until she reveals she''s getting married.');
+-- INSERT INTO movie_t (name, release_year, image_url, rating, description) VALUES
+--    ('Interstellar', 2014, 'https://static.posters.cz/image/750/plakaty/interstellar-ice-walk-i23290.jpg', 8.6, 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'),
+--    ('Avatar', 2009, 'https://static.posters.cz/image/750/plakaty/avatar-limited-ed-one-sheet-sun-i7182.jpg', 7.8, 'In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.'),
+--    ('How to Train Your Dragon: The Hidden World', 2019, 'https://www.themoviedb.org/t/p/original/xvx4Yhf0DVH8G4LzNISpMfFBDy2.jpg', 7.8, 'As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.'),
+--   ('Top Gun', 1986, 'https://www.themoviedb.org/t/p/original/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg', 6.9, 'For Lieutenant Pete ''Maverick'' Mitchell and his friend and co-pilot Nick ''Goose'' Bradshaw, being accepted into an elite training school for fighter pilots is a dream come true. But a tragedy, as well as personal demons, will threaten Pete''s dreams of becoming an ace pilot.'),
+--   ('How to Train Your Dragon', 2010, 'https://www.themoviedb.org/t/p/original/ygGmAO60t8GyqUo9xYeYxSZAR3b.jpg', 7.8, 'As the son of a Viking leader on the cusp of manhood, shy Hiccup Horrendous Haddock III faces a rite of passage: he must kill a dragon to prove his warrior mettle. But after downing a feared dragon, he realizes that he no longer wants to destroy it, and instead befriends the beast – which he names Toothless – much to the chagrin of his warrior father.'),
+--    ('Avengers: Infinity War', 2018, 'https://www.themoviedb.org/t/p/original/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg', 8.3, 'As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.'),
+--    ('Once Upon a Time in the West', 1968, 'https://www.themoviedb.org/t/p/original/qbYgqOczabWNn2XKwgMtVrntD6P.jpg', 8.3, 'As the railroad builders advance unstoppably through the Arizona desert on their way to the sea, Jill arrives in the small town of Flagstone with the intention of starting a new life.'),
+--    ('#FriendButMarried', 2018, 'https://www.themoviedb.org/t/p/original/splV83B3CqMCbHUunoyaUoRUM60.jpg', 6.8, 'Pining for his high school crush for years, a young man puts up his best efforts to move out of the friend zone until she reveals she''s getting married.');
 
 
-INSERT INTO swipe_t (type, id_user, id_movie) VALUES
-    ('like', 1, 2), ('like', 1, 3),
-    ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
-    ('like', 2, 2), ('dislike', 2, 3),
-    ('like', 3, 1), ('like', 3, 3);
+-- INSERT INTO swipe_t (type, id_user, id_movie) VALUES
+--     ('like', 1, 2), ('like', 1, 3),
+--     ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
+--   ('like', 2, 2), ('dislike', 2, 3),
+--   ('like', 3, 1), ('like', 3, 3);
 
-INSERT INTO genre_t (name) VALUES ('komedie'), ('sci-fi'), ('akční');
+INSERT INTO genre_t (id_genre, name) VALUES
+    (28, 'Action'), (12, 'Adventure'), (16, 'Animation'),
+    (35, 'Comedy'), (80, 'Crime'), (99, 'Documentary'),
+    (18, 'Drama'), (10751, 'Family'), (14, 'Fantasy'),
+    (36, 'History'), (27, 'Horror'), (10402, 'Music'),
+    (9648, 'Mystery'), (10749, 'Romance'), (878, 'Science Fiction'),
+    (10770, 'TV Movie'), (53, 'Thriller'), (10752, 'War'), (37, 'Western');
 
-INSERT INTO movie_genre_t (id_movie, id_genre) VALUES
-    (1, 2), (2, 2), (3, 3);
+
+-- INSERT INTO movie_genre_t (id_movie, id_genre) VALUES
+--     (1, 2), (2, 2), (3, 3);
 
 INSERT INTO group_t (id_owner, name) VALUES
     (1, 'Borci');
@@ -130,9 +137,9 @@ INSERT INTO group_t (id_owner, name) VALUES
 INSERT INTO user_group_t (id_user, id_group) VALUES
     (2, 1), (3, 1);
 
-INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
-    (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);
+-- INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
+--     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);
 
-INSERT INTO user_event_t (id_user, id_event) VALUES
-    (2, 1), (3, 1)
+-- INSERT INTO user_event_t (id_user, id_event) VALUES
+--     (2, 1), (3, 1)
 

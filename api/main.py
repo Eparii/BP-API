@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe
+from api.models import Swipe, Movie, MovieGenre
 
 
 class UserAPI(Resource):
@@ -25,6 +25,23 @@ class MovieAPI(Resource):
             return movie
         else:
             return jsonify(movie=movie)
+
+    def post(self):
+        genres = []
+        for genre_id in request.json['genres']:
+            genre = MovieGenre(id_genre=genre_id)
+            genres.append(genre)
+        new_movie = Movie(
+            name=request.json['name'],
+            release_year=request.json['release_year'],
+            image_url=request.json['image_url'],
+            rating=request.json['rating'],
+            description=request.json['description'],
+            genres=genres
+        )
+        db.session.add(new_movie)
+        db.session.commit()
+        return "", 204
 
 
 class GroupAPI(Resource):
@@ -73,4 +90,3 @@ class SwipeAPI(Resource):
         db.session.delete(swipe)
         db.session.commit()
         return "", 204
-
