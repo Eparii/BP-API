@@ -28,6 +28,7 @@ class Movie(db.Model):
     events_chosen = db.relationship('Event', cascade='all, delete-orphan', backref='chosen_movie', lazy=True)
     swipes = db.relationship('Swipe', cascade='all, delete-orphan', backref='movie', lazy=True)
     genres = db.relationship('MovieGenre', cascade='all, delete-orphan', backref='movie', lazy=True)
+    vods = db.relationship('MovieVoD', cascade='all, delete-orphan', backref='movie', lazy=True)
 
 
 class Swipe(db.Model):
@@ -66,6 +67,20 @@ class Event(db.Model):
     id_chosen_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), nullable=True)
     participants = db.relationship('UserEvent', cascade='all, delete-orphan', backref='event', lazy=True)
     movies_listed = db.relationship('EventMovie', cascade='all, delete-orphan', backref='event', lazy=True)
+
+
+class VoD(db.Model):
+    __tablename__ = 'vod_t'
+    id = db.Column('id_vod', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(50))
+
+    movies_available = db.relationship('MovieVoD', cascade='all, delete-orphan', backref='VoD', lazy=True)
+
+
+class MovieVoD(db.Model):
+    __tablename__ = 'movie_vod_t'
+    id_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), primary_key=True)
+    id_vod = db.Column(db.Integer, db.ForeignKey('vod_t.id_vod'), primary_key=True)
 
 
 class MovieGenre(db.Model):

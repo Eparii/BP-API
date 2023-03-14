@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe, Movie, MovieGenre
+from api.models import Swipe, Movie, MovieGenre, MovieVoD
 
 
 class UserAPI(Resource):
@@ -28,16 +28,25 @@ class MovieAPI(Resource):
 
     def post(self):
         genres = []
+        vods = []
         for genre_id in request.json['genres']:
             genre = MovieGenre(id_genre=genre_id)
             genres.append(genre)
+        for vod_id in request.json['vods']:
+            if vod_id == 'Netflix':
+                vod_id = 1
+            else:
+                vod_id = 2
+            vod = MovieVoD(id_vod=vod_id)
+            vods.append(vod)
         new_movie = Movie(
             name=request.json['name'],
             release_year=request.json['release_year'],
             image_url=request.json['image_url'],
             rating=request.json['rating'],
             description=request.json['description'],
-            genres=genres
+            genres=genres,
+            vods=vods
         )
         db.session.add(new_movie)
         db.session.commit()
