@@ -31,10 +31,8 @@ class MovieAPI(Resource):
         else:
             page_size = int(page_size)
         movie = utils.create_movies_json(movie_id, page_num, page_size)
-        if type(movie) is tuple:
-            return movie
-        else:
-            return jsonify(movie=movie)
+        return movie
+
 
     def post(self):
         genres = []
