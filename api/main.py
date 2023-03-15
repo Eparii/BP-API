@@ -20,7 +20,17 @@ class UserAPI(Resource):
 class MovieAPI(Resource):
     def get(self):
         movie_id = request.args.get('movie_id')
-        movie = utils.create_movies_json(movie_id)
+        page_num = request.args.get('page')
+        page_size = request.args.get('page_size')
+        if page_num is None:
+            page_num = 1
+        else:
+            page_num = int(page_num)
+        if page_size is None:
+            page_size = 20
+        else:
+            page_size = int(page_size)
+        movie = utils.create_movies_json(movie_id, page_num, page_size)
         if type(movie) is tuple:
             return movie
         else:

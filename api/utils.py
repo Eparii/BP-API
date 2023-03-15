@@ -1,6 +1,5 @@
 from api import dicts
 from api.models import Swipe, Group, UserGroup, UserEvent, Event, Movie, User
-from flask import jsonify
 
 
 def create_user_swipes_json(user_id):
@@ -46,13 +45,18 @@ def create_user_events_json(user_id):
     return events_list
 
 
-def create_movies_json(movie_id):
+def create_movies_json(movie_id, page_num, page_size):
     if movie_id is None:
-        movies = Movie.query.all()
+        movies = Movie.query.paginate(page=page_num, per_page=page_size)
         movies_list = []
-        for movie in movies:
+        for movie in movies.items:
             movies_list.append(dicts.create_movie_dict(movie))
-        return movies_list
+        return {
+            "movies": movies_list,
+            "current_page": movies.page,
+            "total_pages": movies.pages,
+            "total_items": movies.total,
+        }
     else:
         movie = Movie.query.filter_by(id=movie_id).first()
         if movie is None:

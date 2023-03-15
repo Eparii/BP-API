@@ -129,11 +129,11 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
 --    ('#FriendButMarried', 2018, 'https://www.themoviedb.org/t/p/original/splV83B3CqMCbHUunoyaUoRUM60.jpg', 6.8, 'Pining for his high school crush for years, a young man puts up his best efforts to move out of the friend zone until she reveals she''s getting married.');
 
 
--- INSERT INTO swipe_t (type, id_user, id_movie) VALUES
---     ('like', 1, 2), ('like', 1, 3),
---     ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
---   ('like', 2, 2), ('dislike', 2, 3),
---   ('like', 3, 1), ('like', 3, 3);
+INSERT INTO swipe_t (type, id_user, id_movie) VALUES
+    ('like', 1, 2), ('like', 1, 3),
+    ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
+  ('like', 2, 2), ('dislike', 2, 3),
+  ('like', 3, 1), ('like', 3, 3);
 
 INSERT INTO genre_t (id_genre, name) VALUES
     (28, 'Action'), (12, 'Adventure'), (16, 'Animation'),
@@ -159,7 +159,7 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 
 -- INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
 --     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);
-
+--
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
 
