@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS user_t CASCADE;
 DROP TABLE IF EXISTS swipe_t CASCADE;
-DROP TABLE IF EXISTS movie_t CASCADE;
+-- DROP TABLE IF EXISTS movie_t CASCADE;
 DROP TABLE IF EXISTS group_t CASCADE;
 DROP TABLE IF EXISTS genre_t CASCADE;
 DROP TABLE IF EXISTS event_t CASCADE;
@@ -128,12 +128,12 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
 --    ('Once Upon a Time in the West', 1968, 'https://www.themoviedb.org/t/p/original/qbYgqOczabWNn2XKwgMtVrntD6P.jpg', 8.3, 'As the railroad builders advance unstoppably through the Arizona desert on their way to the sea, Jill arrives in the small town of Flagstone with the intention of starting a new life.'),
 --    ('#FriendButMarried', 2018, 'https://www.themoviedb.org/t/p/original/splV83B3CqMCbHUunoyaUoRUM60.jpg', 6.8, 'Pining for his high school crush for years, a young man puts up his best efforts to move out of the friend zone until she reveals she''s getting married.');
 
-
-INSERT INTO swipe_t (type, id_user, id_movie) VALUES
-    ('like', 1, 2), ('like', 1, 3),
-    ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
-  ('like', 2, 2), ('dislike', 2, 3),
-  ('like', 3, 1), ('like', 3, 3);
+--
+-- INSERT INTO swipe_t (type, id_user, id_movie) VALUES
+--     ('like', 1, 2), ('like', 1, 3),
+--     ('dislike', 1, 4), ('dislike', 1, 5), ('like', 1, 6),
+--   ('like', 2, 2), ('dislike', 2, 3),
+--   ('like', 3, 1), ('like', 3, 3);
 
 INSERT INTO genre_t (id_genre, name) VALUES
     (28, 'Action'), (12, 'Adventure'), (16, 'Animation'),
@@ -163,4 +163,4 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
 
--- select * from movie_t;
+select * from movie_genre_t;
