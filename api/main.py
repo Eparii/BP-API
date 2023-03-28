@@ -55,6 +55,7 @@ class MovieAPI(Resource):
             image_url=request.json['image_url'],
             rating=request.json['rating'],
             description=request.json['description'],
+            tmdb_id=request.json['tmdb_id'],
             genres=genres,
             vods=vods
         )

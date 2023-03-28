@@ -21,8 +21,9 @@ class Movie(db.Model):
     name = db.Column('name', db.String(255), nullable=False)
     release_year = db.Column('release_year', db.Integer, nullable=False)
     image_url = db.Column('image_url', db.String(512), nullable=False)
-    rating = db.Column('rating', db.Float, nullable=True)
+    rating = db.Column('rating', db.Float, nullable=False)
     description = db.Column('description', db.String(2048), nullable=False)
+    tmdb_id = db.Column('tmdb_id', db.Integer, nullable=False)
 
     events_listed = db.relationship('EventMovie', cascade='all, delete-orphan', backref='listed_movie', lazy=True)
     events_chosen = db.relationship('Event', cascade='all, delete-orphan', backref='chosen_movie', lazy=True)
@@ -46,6 +47,7 @@ class Genre(db.Model):
     name = db.Column('name', db.String(50), nullable=False)
 
     movies = db.relationship('MovieGenre', cascade='all, delete-orphan', backref='genre', lazy=True)
+    groups = db.relationship('GroupGenre', cascade='all, delete-orphan', backref='genre', lazy=True)
 
 
 class Group(db.Model):
@@ -55,6 +57,7 @@ class Group(db.Model):
 
     id_owner = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), nullable=False)
     members = db.relationship('UserGroup', cascade='all, delete-orphan', backref='group', lazy=True)
+    genres = db.relationship('GroupGenre', cascade='all, delete-orphan', backref='group', lazy=True)
 
 
 class Event(db.Model):
@@ -105,3 +108,9 @@ class EventMovie(db.Model):
     __tablename__ = 'event_movie_t'
     id_event = db.Column(db.Integer, db.ForeignKey('event_t.id_event'), primary_key=True)
     id_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), primary_key=True)
+
+
+class GroupGenre(db.Model):
+    __tablename__ = 'group_genre_t'
+    id_genre = db.Column(db.Integer, db.ForeignKey('genre_t.id_genre'), primary_key=True)
+    id_group = db.Column(db.Integer, db.ForeignKey('group_t.id_group'), primary_key=True)
