@@ -58,6 +58,8 @@ class Group(db.Model):
     id_owner = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), nullable=False)
     members = db.relationship('UserGroup', cascade='all, delete-orphan', backref='group', lazy=True)
     genres = db.relationship('GroupGenre', cascade='all, delete-orphan', backref='group', lazy=True)
+    vods = db.relationship('GroupVoD', cascade='all, delete-orphan', backref='group', lazy=True)
+
 
 
 class Event(db.Model):
@@ -113,4 +115,10 @@ class EventMovie(db.Model):
 class GroupGenre(db.Model):
     __tablename__ = 'group_genre_t'
     id_genre = db.Column(db.Integer, db.ForeignKey('genre_t.id_genre'), primary_key=True)
+    id_group = db.Column(db.Integer, db.ForeignKey('group_t.id_group'), primary_key=True)
+
+
+class GroupVoD(db.Model):
+    __tablename__ = 'group_vod_t'
+    id_vod = db.Column(db.Integer, db.ForeignKey('vod_t.id_vod'), primary_key=True)
     id_group = db.Column(db.Integer, db.ForeignKey('group_t.id_group'), primary_key=True)

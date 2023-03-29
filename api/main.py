@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe, Movie, MovieGenre, MovieVoD
+from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group
 
 
 class UserAPI(Resource):
@@ -73,6 +73,30 @@ class GroupAPI(Resource):
         else:
             return jsonify(group=group)
 
+    def post(self):
+        genres = []
+        vods = []
+        for genre_name in request.json['genres']:
+            genre = MovieGenre(name=genre_name)
+            genres.append(genre)
+        for vod_name in request.json['vods']:
+            vod_id = None
+            if vod_name == 'Netflix':
+                vod_id = 1
+            else:
+                vod_id = 2
+            vod = MovieVoD(id_vod=vod_id)
+            vods.append(vod)
+        new_group = Group(
+            id_owner=int(request.json['id_user']),
+            name=request.json['name'],
+            genres=genres,
+            vods=vods
+        )
+        db.session.add(new_group)
+        db.session.commit()
+        return "", 204
+
 
 class EventAPI(Resource):
     def get(self):
@@ -82,6 +106,8 @@ class EventAPI(Resource):
             return event
         else:
             return jsonify(event=event)
+
+
 
 
 class SwipeAPI(Resource):

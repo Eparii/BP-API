@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS movie_genre_t CASCADE;
 DROP TABLE IF EXISTS vod_t CASCADE;
 DROP TABLE IF EXISTS movie_vod_t CASCADE;
 DROP TABLE IF EXISTS group_genre_t CASCADE;
+DROP TABLE IF EXISTS group_vod_t CASCADE;
 DROP TYPE IF EXISTS SWIPE_TYPE;
 
 CREATE TYPE SWIPE_TYPE AS ENUM ('like', 'dislike', 'skip');
@@ -123,6 +124,14 @@ CREATE TABLE group_genre_t
     PRIMARY KEY(id_group, id_genre)
 );
 
+CREATE TABLE group_vod_t
+(
+    id_group INT REFERENCES group_t(id_group) ON DELETE CASCADE,
+    id_vod INT REFERENCES vod_t(id_vod) ON DELETE CASCADE,
+
+    PRIMARY KEY(id_group, id_vod)
+);
+
 INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
     ('Pavel', 'Růžička', 'pavel.ruzicka@seznam.cz', '$2a$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
     ('Gustav', 'Svoboda', 'gustav.svoboda@seznam.cz', '$2b$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
@@ -142,10 +151,11 @@ INSERT INTO vod_t(name) VALUES
 
 
 INSERT INTO group_t (id_owner, name) VALUES
-    (1, 'Borci');
+    (1, 'Borci'), (2, 'Neborci'), (2, 'Rodina'),
+    (2, 'Sourozenci'), (2, 'Volejbal'), (2, 'Richmond');
 
 INSERT INTO user_group_t (id_user, id_group) VALUES
-    (2, 1), (3, 1);
+    (1, 2), (1, 3), (1, 4), (1, 5), (1, 6);
 
 -- INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
 --     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);
@@ -153,4 +163,4 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
 
--- select * from movie_t ;
+ select * from movie_t ;
