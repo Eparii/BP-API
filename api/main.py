@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group
+from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVoD, GroupGenre
 
 
 class UserAPI(Resource):
@@ -77,7 +77,8 @@ class GroupAPI(Resource):
         genres = []
         vods = []
         for genre_name in request.json['genres']:
-            genre = MovieGenre(name=genre_name)
+            id_genre = Genre.query.filter_by(name=genre_name).first().id
+            genre = GroupGenre(id_genre=id_genre)
             genres.append(genre)
         for vod_name in request.json['vods']:
             vod_id = None
@@ -85,10 +86,10 @@ class GroupAPI(Resource):
                 vod_id = 1
             else:
                 vod_id = 2
-            vod = MovieVoD(id_vod=vod_id)
+            vod = GroupVoD(id_vod=vod_id)
             vods.append(vod)
         new_group = Group(
-            id_owner=int(request.json['id_user']),
+            id_owner=int(request.json['user_id']),
             name=request.json['name'],
             genres=genres,
             vods=vods
