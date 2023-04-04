@@ -61,7 +61,6 @@ class Group(db.Model):
     vods = db.relationship('GroupVoD', cascade='all, delete-orphan', backref='group', lazy=True)
 
 
-
 class Event(db.Model):
     __tablename__ = 'event_t'
     id = db.Column('id_event', db.Integer, primary_key=True)
