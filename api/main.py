@@ -98,6 +98,13 @@ class GroupAPI(Resource):
         db.session.commit()
         return "", 204
 
+    def delete(self):
+        group_id = int(request.args.get('group_id'))
+        group = Group.query.filter_by(id_group=group_id)[0]
+        db.session.delete(group)
+        db.session.commit()
+        return "", 204
+
 
 class EventAPI(Resource):
     def get(self):

@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS user_t CASCADE;
 DROP TABLE IF EXISTS swipe_t CASCADE;
---DROP TABLE IF EXISTS movie_t CASCADE;
+-- DROP TABLE IF EXISTS movie_t CASCADE;
 DROP TABLE IF EXISTS group_t CASCADE;
-DROP TABLE IF EXISTS genre_t CASCADE;
+-- DROP TABLE IF EXISTS genre_t CASCADE;
 DROP TABLE IF EXISTS event_t CASCADE;
 DROP TABLE IF EXISTS event_movie_t CASCADE;
 DROP TABLE IF EXISTS user_event_t CASCADE;
 DROP TABLE IF EXISTS user_group_t CASCADE;
-DROP TABLE IF EXISTS movie_genre_t CASCADE;
+-- DROP TABLE IF EXISTS movie_genre_t CASCADE;
 DROP TABLE IF EXISTS vod_t CASCADE;
 DROP TABLE IF EXISTS movie_vod_t CASCADE;
 DROP TABLE IF EXISTS group_genre_t CASCADE;
@@ -50,12 +50,12 @@ CREATE TABLE swipe_t
     id_user INT REFERENCES user_t(id_user) ON DELETE CASCADE,
     id_movie INT REFERENCES movie_t(id_movie) ON DELETE CASCADE
 );
-
-CREATE TABLE genre_t
-(
-    id_genre SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
-);
+--
+-- CREATE TABLE genre_t
+-- (
+--     id_genre SERIAL PRIMARY KEY,
+--     name VARCHAR(50) NOT NULL
+-- );
 
 CREATE TABLE group_t
 (
@@ -76,13 +76,13 @@ CREATE TABLE event_t
 );
 
 
-CREATE TABLE movie_genre_t
-(
-    id_movie INT REFERENCES movie_t(id_movie) ON DELETE CASCADE,
-    id_genre INT REFERENCES genre_t(id_genre) ON DELETE CASCADE,
-
-    PRIMARY KEY (id_movie, id_genre)
-);
+-- CREATE TABLE movie_genre_t
+-- (
+--     id_movie INT REFERENCES movie_t(id_movie) ON DELETE CASCADE,
+--     id_genre INT REFERENCES genre_t(id_genre) ON DELETE CASCADE,
+--
+--     PRIMARY KEY (id_movie, id_genre)
+-- );
 
 CREATE TABLE user_group_t
 (
@@ -165,5 +165,3 @@ INSERT INTO swipe_t(type, id_user, id_movie) VALUES
 --
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
-
- select * from movie_t ;
