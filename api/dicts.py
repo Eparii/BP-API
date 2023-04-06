@@ -31,7 +31,7 @@ def create_group_dict(group, members, matches):
             "name": group.name,
             "owner": owner,
             "members": members,
-            "matches:": matches
+            "matches": matches
         }
     else:
         group_dict = {
