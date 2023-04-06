@@ -27,10 +27,10 @@ def create_user_groups_json(user_id):
     member_groups = UserGroup.query.filter_by(id_user=user_id)
     groups_list = []
     for group in owner_groups:
-        groups_list.append(dicts.create_group_dict(group, None, None))
+        groups_list.append(dicts.create_group_dict(group, None, None, None, None))
     for group in member_groups:
         tmp_group = Group.query.filter_by(id=group.id_group).first()
-        groups_list.append(dicts.create_group_dict(tmp_group, None))
+        groups_list.append(dicts.create_group_dict(tmp_group, None, None, None, None))
     return groups_list
 
 
