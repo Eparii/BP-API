@@ -22,7 +22,7 @@ def create_swipe_dict(swipe):
     return swipe_dict
 
 
-def create_group_dict(group, members):
+def create_group_dict(group, members, matches):
     owner = User.query.filter_by(id=group.id_owner).first()
     owner = create_user_dict(owner)
     if members is not None:
@@ -30,7 +30,8 @@ def create_group_dict(group, members):
             "id": group.id,
             "name": group.name,
             "owner": owner,
-            "members": members
+            "members": members,
+            "matches:": matches
         }
     else:
         group_dict = {

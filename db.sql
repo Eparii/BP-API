@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS user_t CASCADE;
 DROP TABLE IF EXISTS swipe_t CASCADE;
-DROP TABLE IF EXISTS movie_t CASCADE;
+--DROP TABLE IF EXISTS movie_t CASCADE;
 DROP TABLE IF EXISTS group_t CASCADE;
 DROP TABLE IF EXISTS genre_t CASCADE;
 DROP TABLE IF EXISTS event_t CASCADE;
@@ -31,16 +31,16 @@ CREATE TABLE user_t
     password_hash VARCHAR(60) NOT NULL
 );
 
-CREATE TABLE movie_t
-(
-    id_movie SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    release_year INT NOT NULL,
-    image_url VARCHAR(512) NOT NULL,
-    rating FLOAT NOT NULL,
-    tmdb_id INT NOT NULL,
-    description VARCHAR(2048) NOT NULL
-);
+-- CREATE TABLE movie_t
+-- (
+--     id_movie SERIAL PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     release_year INT NOT NULL,
+--     image_url VARCHAR(512) NOT NULL,
+--     rating FLOAT NOT NULL,
+--     tmdb_id INT NOT NULL,
+--     description VARCHAR(2048) NOT NULL
+-- );
 
 CREATE TABLE swipe_t
 (
@@ -151,11 +151,14 @@ INSERT INTO vod_t(name) VALUES
 
 
 INSERT INTO group_t (id_owner, name) VALUES
-    (1, 'Borci'), (2, 'Neborci'), (2, 'Rodina'),
-    (2, 'Sourozenci'), (2, 'Volejbal'), (2, 'Richmond');
+    (1, 'Borci');
 
 INSERT INTO user_group_t (id_user, id_group) VALUES
-    (1, 2), (1, 3), (1, 4), (1, 5), (1, 6);
+    (2, 1);
+
+INSERT INTO swipe_t(type, id_user, id_movie) VALUES
+    ('like', 2, 1), ('like', 2, 2), ('dislike', 2, 3),
+    ('like', 2, 4),('like', 2, 5), ('dislike', 2, 6);
 
 -- INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
 --     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);

@@ -72,11 +72,24 @@ def create_group_json(group_id):
     if group is None:
         return "Not found", 404
     group_members = UserGroup.query.filter_by(id_group=group_id)
+    owner = User.query.filter_by(id=group.id_owner).first()
+    matches = []
+    for swipe in owner.swipes:
+        if swipe.type == 'like':
+            matches.append(swipe.id_movie)
     members = []
     for member in group_members:
         user = User.query.filter_by(id=member.id_user).first()
+        likes = []
+        for swipe in user.swipes:
+            if swipe.type == 'like':
+                likes.append(swipe.movie.id)
+        for match in matches:
+            if match not in likes:
+                matches.remove(match)
         members.append(dicts.create_user_dict(user))
-    group_dict = dicts.create_group_dict(group, members)
+
+    group_dict = dicts.create_group_dict(group, members, matches)
     return group_dict
 
 
