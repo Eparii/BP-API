@@ -165,3 +165,4 @@ INSERT INTO swipe_t(type, id_user, id_movie) VALUES
 --
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
+select * from group_t;
