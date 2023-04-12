@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS group_genre_t CASCADE;
 DROP TABLE IF EXISTS group_vod_t CASCADE;
 DROP TYPE IF EXISTS SWIPE_TYPE;
 
-CREATE TYPE SWIPE_TYPE AS ENUM ('like', 'dislike', 'skip');
+CREATE TYPE SWIPE_TYPE AS ENUM ('like', 'dislike', 'seen');
 
 CREATE TABLE vod_t
 (
@@ -28,7 +28,7 @@ CREATE TABLE user_t
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password_hash VARCHAR(60) NOT NULL
+    password_hash VARCHAR(64) NOT NULL
 );
 
 -- CREATE TABLE movie_t
@@ -137,13 +137,13 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
     ('Gustav', 'Svoboda', 'gustav.svoboda@seznam.cz', '$2b$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y'),
     ('Alexandr', 'Veliký', 'alex.big@seznam.cz', '$2c$12$xmsFeYG4cnm7BIcXwNPNLulL/TrehULqhuwortGOR3AfPidTeVI4y');
 
-INSERT INTO genre_t (id_genre, name) VALUES
-    (28, 'Action'), (12, 'Adventure'), (16, 'Animation'),
-    (35, 'Comedy'), (80, 'Crime'), (99, 'Documentary'),
-    (18, 'Drama'), (10751, 'Family'), (14, 'Fantasy'),
-    (36, 'History'), (27, 'Horror'), (10402, 'Music'),
-    (9648, 'Mystery'), (10749, 'Romance'), (878, 'Sci-Fi'),
-    (10770, 'TV Movie'), (53, 'Thriller'), (10752, 'War'), (37, 'Western');
+-- INSERT INTO genre_t (id_genre, name) VALUES
+--     (28, 'Action'), (12, 'Adventure'), (16, 'Animation'),
+--     (35, 'Comedy'), (80, 'Crime'), (99, 'Documentary'),
+--     (18, 'Drama'), (10751, 'Family'), (14, 'Fantasy'),
+--     (36, 'History'), (27, 'Horror'), (10402, 'Music'),
+--     (9648, 'Mystery'), (10749, 'Romance'), (878, 'Sci-Fi'),
+--     (10770, 'TV Movie'), (53, 'Thriller'), (10752, 'War'), (37, 'Western');
 
 
 INSERT INTO vod_t(name) VALUES
@@ -165,4 +165,4 @@ INSERT INTO swipe_t(type, id_user, id_movie) VALUES
 --
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
-select * from group_t;
+select * from user_t;

@@ -1,7 +1,41 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVoD, GroupGenre
+from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVoD, GroupGenre, User
+import hashlib
+
+
+class LoginAPI(Resource):
+    def post(self):
+        email = request.json['email']
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            return "Email not found", 404
+        password = request.json['password']
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        if user.password_hash == password_hash:
+            return {"message": "Authentication successful", "user_id": user.id}, 200
+        else:
+            return "Incorrect password", 401
+
+
+class RegisterAPI(Resource):
+    def post(self):
+        email = request.json['email']
+        user = User.query.filter_by(email=email).first()
+        if user is not None:
+            return "Email already exists", 409
+        password = request.json['password']
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        new_user = User(
+            first_name=request.json['first_name'],
+            last_name=request.json['last_name'],
+            email=email,
+            password_hash=password_hash
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return "Registration successful", 201
 
 
 class UserAPI(Resource):
@@ -114,8 +148,6 @@ class EventAPI(Resource):
             return event
         else:
             return jsonify(event=event)
-
-
 
 
 class SwipeAPI(Resource):

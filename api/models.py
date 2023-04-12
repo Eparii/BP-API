@@ -7,7 +7,7 @@ class User(db.Model):
     first_name = db.Column('firstname', db.String(50), nullable=False)
     last_name = db.Column('lastname', db.String(50), nullable=False)
     email = db.Column('email', db.String(255), nullable=False, unique=True)
-    password_hash = db.Column('password_hash', db.String(60), nullable=False)
+    password_hash = db.Column('password_hash', db.String(64), nullable=False)
 
     member_groups = db.relationship('Group', cascade='all, delete-orphan', backref='member', lazy=True)
     owner_groups = db.relationship('UserGroup', cascade='all, delete-orphan', backref='owner', lazy=True)
