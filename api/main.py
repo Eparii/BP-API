@@ -56,6 +56,8 @@ class MovieAPI(Resource):
         movie_id = request.args.get('movie_id')
         page_num = request.args.get('page')
         page_size = request.args.get('page_size')
+        group_id = request.args.get('group_id')
+        user_id = request.args.get('user_id')
         if page_num is None:
             page_num = 1
         else:
@@ -64,7 +66,7 @@ class MovieAPI(Resource):
             page_size = 100
         else:
             page_size = int(page_size)
-        movie = utils.create_movies_json(movie_id, page_num, page_size)
+        movie = utils.create_movies_json(movie_id, page_num, page_size, group_id, user_id)
         if len(movie) == 4:  # pozadavek na seznam filmu
             return movie
         else:

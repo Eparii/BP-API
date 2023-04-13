@@ -1,5 +1,5 @@
 from api import dicts
-from api.models import Swipe, Group, UserGroup, UserEvent, Event, Movie, User
+from api.models import Swipe, Group, UserGroup, UserEvent, Event, Movie, User, Genre, MovieGenre, MovieVoD
 
 
 def create_user_swipes_json(user_id):
@@ -45,9 +45,16 @@ def create_user_events_json(user_id):
     return events_list
 
 
-def create_movies_json(movie_id, page_num, page_size):
+def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
     if movie_id is None:
-        movies = Movie.query.paginate(page=page_num, per_page=page_size)
+        swiped_movies = Swipe.query.filter_by(id_user=user_id)
+        swiped_movies_ids = [swipe.id_movie for swipe in swiped_movies]
+        group = Group.query.filter_by(id=group_id).first()
+        vod_ids = [vod.id_vod for vod in group.vods]
+        genre_ids = [genre.id_genre for genre in group.genres]
+        movies = Movie.query.filter(~Movie.id.in_(swiped_movies_ids), Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
+                                    Movie.genres.any(MovieGenre.id_genre.in_(genre_ids))).paginate(page=page_num,
+                                                                                                   per_page=page_size)
         movies_list = []
         for movie in movies.items:
             movies_list.append(dicts.create_movie_dict(movie))
