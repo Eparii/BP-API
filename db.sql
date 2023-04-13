@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS event_movie_t CASCADE;
 DROP TABLE IF EXISTS user_event_t CASCADE;
 DROP TABLE IF EXISTS user_group_t CASCADE;
 -- DROP TABLE IF EXISTS movie_genre_t CASCADE;
-DROP TABLE IF EXISTS vod_t CASCADE;
+-- DROP TABLE IF EXISTS vod_t CASCADE;
 DROP TABLE IF EXISTS movie_vod_t CASCADE;
 DROP TABLE IF EXISTS group_genre_t CASCADE;
 DROP TABLE IF EXISTS group_vod_t CASCADE;
@@ -146,8 +146,8 @@ INSERT INTO user_t (firstname, lastname, email, password_hash) VALUES
 --     (10770, 'TV Movie'), (53, 'Thriller'), (10752, 'War'), (37, 'Western');
 
 
-INSERT INTO vod_t(name) VALUES
-    ('Netflix'), ('Disney+');
+-- INSERT INTO vod_t(name) VALUES
+--     ('Netflix'), ('Disney+');
 
 
 INSERT INTO group_t (id_owner, name) VALUES
@@ -157,8 +157,8 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
     (2, 1);
 
 INSERT INTO swipe_t(type, id_user, id_movie) VALUES
-    ('like', 2, 1), ('like', 2, 2), ('dislike', 2, 3),
-    ('like', 2, 4),('like', 2, 5), ('dislike', 2, 6);
+    ('like', 1, 1), ('like', 1, 2), ('dislike', 1, 3),
+    ('like', 1, 4),('like', 1, 5), ('dislike', 1, 6);
 
 -- INSERT INTO event_t (start, description, id_group, id_chosen_movie) VALUES
 --     (timestamp '2023-07-20 10:00:00', 'prijďte včas', 1, 1);

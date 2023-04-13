@@ -49,12 +49,17 @@ def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
     if movie_id is None:
         swiped_movies = Swipe.query.filter_by(id_user=user_id)
         swiped_movies_ids = [swipe.id_movie for swipe in swiped_movies]
-        group = Group.query.filter_by(id=group_id).first()
-        vod_ids = [vod.id_vod for vod in group.vods]
-        genre_ids = [genre.id_genre for genre in group.genres]
-        movies = Movie.query.filter(~Movie.id.in_(swiped_movies_ids), Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
-                                    Movie.genres.any(MovieGenre.id_genre.in_(genre_ids))).paginate(page=page_num,
-                                                                                                   per_page=page_size)
+        if group_id is None:  # uzivatel nema vybranou skupinu pro filtrovani
+            # vyhledava vsechny filmy s vyjimkou filmu, ktere uzivatel jiz swipnul
+            movies = Movie.query.filter(~Movie.id.in_(swiped_movies_ids)).paginate(page=page_num, per_page=page_size)
+        else:  # uzivatel vybral skupinu pro filtrovani
+            group = Group.query.filter_by(id=group_id).first()
+            vod_ids = [vod.id_vod for vod in group.vods]
+            genre_ids = [genre.id_genre for genre in group.genres]
+            # vrati filmy, ktere uzivatel jeste neswipoval a ktere odpovidaji VoD sluzbam a zanrum ze zvolene skupiny
+            movies = Movie.query.filter(~Movie.id.in_(swiped_movies_ids), Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
+                                        Movie.genres.any(MovieGenre.id_genre.in_(genre_ids))).paginate(page=page_num,
+                                                                                                       per_page=page_size)
         movies_list = []
         for movie in movies.items:
             movies_list.append(dicts.create_movie_dict(movie))
@@ -80,27 +85,36 @@ def create_group_json(group_id):
         return "Not found", 404
     group_members = UserGroup.query.filter_by(id_group=group_id)
     owner = User.query.filter_by(id=group.id_owner).first()
-    matches = []
+
+    vod_ids = [vod.id_vod for vod in group.vods]
+    genre_ids = [genre.id_genre for genre in group.genres]
+    matches_ids = []
     members = []
     genres = []
     vods = []
+
     for swipe in owner.swipes:
         if swipe.type == 'like':
-            matches.append(swipe.id_movie)
-    for genre in group.genres:
-        genres.append(genre.id_genre)
-    for vod in group.vods:
-        vods.append(vod.id_vod)
+            matches_ids.append(swipe.id_movie)
     for member in group_members:
         user = User.query.filter_by(id=member.id_user).first()
         likes = []
         for swipe in user.swipes:
             if swipe.type == 'like':
                 likes.append(swipe.movie.id)
-        for match in matches:
+        for match in matches_ids:
             if match not in likes:
-                matches.remove(match)
+                matches_ids.remove(match)
         members.append(dicts.create_user_dict(user))
+
+    matches = [movie.id for movie in Movie.query.filter(Movie.id.in_(matches_ids),
+                                                        Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
+                                                        Movie.genres.any(MovieGenre.id_genre.in_(genre_ids)))]
+
+    for genre in group.genres:
+        genres.append(genre.id_genre)
+    for vod in group.vods:
+        vods.append(vod.id_vod)
 
     group_dict = dicts.create_group_dict(group, members, matches, genres, vods)
     return group_dict
