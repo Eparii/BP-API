@@ -49,7 +49,7 @@ def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
     if movie_id is None:
         swiped_movies = Swipe.query.filter_by(id_user=user_id)
         swiped_movies_ids = [swipe.id_movie for swipe in swiped_movies]
-        if group_id is None:  # uzivatel nema vybranou skupinu pro filtrovani
+        if group_id == 0:  # uzivatel nema vybranou skupinu pro filtrovani
             # vyhledava vsechny filmy s vyjimkou filmu, ktere uzivatel jiz swipnul
             movies = Movie.query.filter(~Movie.id.in_(swiped_movies_ids)).paginate(page=page_num, per_page=page_size)
         else:  # uzivatel vybral skupinu pro filtrovani
