@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import Flask, jsonify, request
 from api import utils, dicts, db
-from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVoD, GroupGenre, User
+from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVoD, GroupGenre, User, UserGroup
 import hashlib
 
 
@@ -137,6 +137,22 @@ class GroupAPI(Resource):
         group_id = int(request.args.get('group_id'))
         group = Group.query.filter_by(id=group_id)[0]
         db.session.delete(group)
+        db.session.commit()
+        return "", 204
+
+
+class GroupJoinAPI(Resource):
+    def post(self):
+        group_code = request.json['group_code']
+        group = Group.query.filter_by(group_code=group_code).first()
+        if group is None:
+            return {'message': 'Invalid group code.'}, 400
+        user_id = int(request.json['user_id'])
+        user = User.query.filter_by(id=user_id).first()
+        if group in user.owner_groups or group in user.member_groups:
+            return {'message': 'Already member'}, 400
+        new_group_member = UserGroup(id_group=group.id, id_user=user_id)
+        db.session.add(new_group_member)
         db.session.commit()
         return "", 204
 
