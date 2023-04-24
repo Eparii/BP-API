@@ -10,13 +10,13 @@ class LoginAPI(Resource):
         email = request.json['email']
         user = User.query.filter_by(email=email).first()
         if user is None:
-            return "Email not found", 404
+            return jsonify({'message': 'Email not found'}), 404
         password = request.json['password']
         password_hash = hashlib.sha256(password.encode()).hexdigest()
         if user.password_hash == password_hash:
-            return {"message": "Authentication successful", "user_id": user.id}, 200
+            return jsonify({'message': 'Authentication successful', 'user_id': user.id}), 200
         else:
-            return "Incorrect password", 401
+            return jsonify({'message': 'Incorrect password'}), 401
 
 
 class RegisterAPI(Resource):
@@ -24,7 +24,7 @@ class RegisterAPI(Resource):
         email = request.json['email']
         user = User.query.filter_by(email=email).first()
         if user is not None:
-            return "Email already exists", 409
+            return jsonify({'message': 'Email already exists'}), 409
         password = request.json['password']
         password_hash = hashlib.sha256(password.encode()).hexdigest()
         new_user = User(
@@ -35,7 +35,7 @@ class RegisterAPI(Resource):
         )
         db.session.add(new_user)
         db.session.commit()
-        return "Registration successful", 201
+        return jsonify({'message': 'Registration successful'}), 201
 
 
 class UserAPI(Resource):
