@@ -1,5 +1,5 @@
 from api import dicts
-from api.models import Swipe, Group, UserGroup, UserEvent, Event, Movie, User, Genre, MovieGenre, MovieVoD
+from api.models import Swipe, Group, UserGroup, Movie, User, Genre, MovieGenre, MovieVoD
 
 
 def create_user_swipes_json(user_id):
@@ -33,16 +33,6 @@ def create_user_groups_json(user_id):
         groups_list.append(dicts.create_group_dict(tmp_group, None, None, None, None))
     return groups_list
 
-
-def create_user_events_json(user_id):
-    if user_id is None:
-        return "Bad request", 400
-    events = UserEvent.query.filter_by(id_user=user_id)
-    events_list = []
-    for event in events:
-        tmp_event = Event.query.filter_by(id=event.id_event).first()
-        events_list.append(dicts.create_event_dict(tmp_event, None))
-    return events_list
 
 
 def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
@@ -120,26 +110,11 @@ def create_group_json(group_id):
     return group_dict
 
 
-def create_event_json(event_id):
-    if event_id is None:
-        return "Bad request", 400
-    event = Event.query.filter_by(id=event_id).first()
-    if event is None:
-        return "Not found", 404
-    event_participators = UserEvent.query.filter_by(id_event=event_id)
-    participators = []
-    for participator in event_participators:
-        user = User.query.filter_by(id=participator.id_user).first()
-        participators.append(dicts.create_user_dict(user))
-    event_dict = dicts.create_event_dict(event, participators)
-    return event_dict
-
-
-def create_user_json(user_id, swipes, groups, events):
+def create_user_json(user_id, swipes, groups):
     if user_id is None:
         return "Bad request", 400
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return "Not found", 404
-    user_dict = dicts.create_complete_user_dict(user, swipes, groups, events)
+    user_dict = dicts.create_complete_user_dict(user, swipes, groups)
     return user_dict

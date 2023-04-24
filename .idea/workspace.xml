@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ec1dabe5-c965-4a2b-b366-b8ec5445b216" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +47,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../scraper" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
@@ -132,7 +134,18 @@
       <workItem from="1681383264733" duration="1023000" />
       <workItem from="1681394064350" duration="11264000" />
       <workItem from="1681425871708" duration="607000" />
-      <workItem from="1681472658034" duration="1259000" />
+      <workItem from="1681472658034" duration="1739000" />
+      <workItem from="1681573003051" duration="153000" />
+      <workItem from="1681643777323" duration="1522000" />
+      <workItem from="1681647124158" duration="13000" />
+      <workItem from="1681650067933" duration="235000" />
+      <workItem from="1681654025085" duration="261000" />
+      <workItem from="1681654592055" duration="1610000" />
+      <workItem from="1681658050877" duration="672000" />
+      <workItem from="1681812754429" duration="711000" />
+      <workItem from="1681819456845" duration="64000" />
+      <workItem from="1681890954258" duration="18000" />
+      <workItem from="1682186119428" duration="957000" />
     </task>
     <servers />
   </component>
@@ -159,6 +172,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BP_API$main.coverage" NAME="main Coverage Results" MODIFIED="1678704846838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../scraper" />
-    <SUITE FILE_PATH="coverage/BP_API$BP_MovieMatcher.coverage" NAME="BP-MovieMatcher Coverage Results" MODIFIED="1681475623088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BP_API$BP_MovieMatcher.coverage" NAME="BP-MovieMatcher Coverage Results" MODIFIED="1682186145411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

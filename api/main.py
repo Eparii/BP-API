@@ -43,8 +43,7 @@ class UserAPI(Resource):
         user_id = request.args.get('user_id')
         swipes = utils.create_user_swipes_json(user_id)
         groups = utils.create_user_groups_json(user_id)
-        events = utils.create_user_events_json(user_id)
-        user = utils.create_user_json(user_id, swipes, groups, events)
+        user = utils.create_user_json(user_id, swipes, groups)
         if type(user) is tuple:
             return user
         else:
@@ -78,8 +77,8 @@ class MovieAPI(Resource):
         for genre_id in request.json['genres']:
             genre = MovieGenre(id_genre=genre_id)
             genres.append(genre)
-        for vod_id in request.json['vods']:
-            if vod_id == 'Netflix':
+        for vod_name in request.json['vods']:
+            if vod_name == 'Netflix':
                 vod_id = 1
             else:
                 vod_id = 2
@@ -140,16 +139,6 @@ class GroupAPI(Resource):
         db.session.delete(group)
         db.session.commit()
         return "", 204
-
-
-class EventAPI(Resource):
-    def get(self):
-        event_id = request.args.get('event_id')
-        event = utils.create_event_json(event_id)
-        if type(event) is tuple:
-            return event
-        else:
-            return jsonify(event=event)
 
 
 class SwipeAPI(Resource):

@@ -44,23 +44,6 @@ def create_group_dict(group, members, matches, genres, vods):
     return group_dict
 
 
-def create_event_dict(event, participators):
-    if participators is not None:
-        event_dict = {
-            "id": event.id,
-            "start": event.start.strftime("%d/%m/%Y, %H:%M:%S"),
-            "description": event.description,
-            "participators": participators
-        }
-    else:
-        event_dict = {
-            "id": event.id,
-            "start": event.start.strftime("%d/%m/%Y, %H:%M:%S"),
-            "description": event.description,
-        }
-    return event_dict
-
-
 def create_movie_dict(movie):
     genres = []
     movie_genres = MovieGenre.query.filter_by(id_movie=movie.id)
@@ -80,14 +63,13 @@ def create_movie_dict(movie):
     return movie_dict
 
 
-def create_complete_user_dict(user, swipes, groups, events):
+def create_complete_user_dict(user, swipes, groups):
     user_dict = {
         "id": user.id,
         "first_name": user.first_name,
         "last_name": user.last_name,
         "email": user.email,
         "swipes": swipes,
-        "groups": groups,
-        "events": events
+        "groups": groups
     }
     return user_dict

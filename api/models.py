@@ -12,7 +12,6 @@ class User(db.Model):
     member_groups = db.relationship('Group', cascade='all, delete-orphan', backref='member', lazy=True)
     owner_groups = db.relationship('UserGroup', cascade='all, delete-orphan', backref='owner', lazy=True)
     swipes = db.relationship('Swipe', cascade='all, delete-orphan', backref='user', lazy=True)
-    events_participating = db.relationship('UserEvent', cascade='all, delete-orphan', backref='participant', lazy=True)
 
 
 class Movie(db.Model):
@@ -25,8 +24,6 @@ class Movie(db.Model):
     description = db.Column('description', db.String(2048), nullable=False)
     tmdb_id = db.Column('tmdb_id', db.Integer, nullable=False)
 
-    events_listed = db.relationship('EventMovie', cascade='all, delete-orphan', backref='listed_movie', lazy=True)
-    events_chosen = db.relationship('Event', cascade='all, delete-orphan', backref='chosen_movie', lazy=True)
     swipes = db.relationship('Swipe', cascade='all, delete-orphan', backref='movie', lazy=True)
     genres = db.relationship('MovieGenre', cascade='all, delete-orphan', backref='movie', lazy=True)
     vods = db.relationship('MovieVoD', cascade='all, delete-orphan', backref='movie', lazy=True)
@@ -61,18 +58,6 @@ class Group(db.Model):
     vods = db.relationship('GroupVoD', cascade='all, delete-orphan', backref='group', lazy=True)
 
 
-class Event(db.Model):
-    __tablename__ = 'event_t'
-    id = db.Column('id_event', db.Integer, primary_key=True)
-    start = db.Column('start', db.DateTime, nullable=False)
-    description = db.Column('description', db.String(255), nullable=True)
-
-    id_group = db.Column(db.Integer, db.ForeignKey('group_t.id_group'), nullable=False)
-    id_chosen_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), nullable=True)
-    participants = db.relationship('UserEvent', cascade='all, delete-orphan', backref='event', lazy=True)
-    movies_listed = db.relationship('EventMovie', cascade='all, delete-orphan', backref='event', lazy=True)
-
-
 class VoD(db.Model):
     __tablename__ = 'vod_t'
     id = db.Column('id_vod', db.Integer, primary_key=True)
@@ -97,18 +82,6 @@ class UserGroup(db.Model):
     __tablename__ = 'user_group_t'
     id_user = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), primary_key=True)
     id_group = db.Column(db.Integer, db.ForeignKey('group_t.id_group'), primary_key=True)
-
-
-class UserEvent(db.Model):
-    __tablename__ = 'user_event_t'
-    id_user = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), primary_key=True)
-    id_event = db.Column(db.Integer, db.ForeignKey('event_t.id_event'), primary_key=True)
-
-
-class EventMovie(db.Model):
-    __tablename__ = 'event_movie_t'
-    id_event = db.Column(db.Integer, db.ForeignKey('event_t.id_event'), primary_key=True)
-    id_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), primary_key=True)
 
 
 class GroupGenre(db.Model):
