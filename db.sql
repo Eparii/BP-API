@@ -61,7 +61,7 @@ CREATE TABLE group_t
 (
     id_group SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    group_code VARCHAR(6) UNIQUE DEFAULT substring(cast(gen_random_uuid() as text) from 1 for 6),
+    group_code VARCHAR(6) UNIQUE DEFAULT substring(cast(gen_random_uuid() as text) from 1 for 6) NOT NULL,
 
     id_owner INT REFERENCES user_t(id_user) ON DELETE SET NULL
 );
