@@ -77,12 +77,11 @@ def create_group_json(group_id):
     owner = User.query.filter_by(id=group.id_owner).first()
 
     vod_ids = [vod.id_vod for vod in group.vods]
+    vod_names = [vod.vod.name for vod in group.vods]
+    genre_names = [genre.genre.name for genre in group.genres]
     genre_ids = [genre.id_genre for genre in group.genres]
     matches_ids = []
     members = []
-    genres = []
-    vods = []
-
     for swipe in owner.swipes:
         if swipe.type == 'like':
             matches_ids.append(swipe.id_movie)
@@ -101,12 +100,7 @@ def create_group_json(group_id):
                                                         Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
                                                         Movie.genres.any(MovieGenre.id_genre.in_(genre_ids)))]
 
-    for genre in group.genres:
-        genres.append(genre.id_genre)
-    for vod in group.vods:
-        vods.append(vod.id_vod)
-
-    group_dict = dicts.create_group_dict(group, members, matches, genres, vods)
+    group_dict = dicts.create_group_dict(group, members, matches, genre_names, vod_names)
     return group_dict
 
 

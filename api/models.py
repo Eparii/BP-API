@@ -64,7 +64,8 @@ class VoD(db.Model):
     id = db.Column('id_vod', db.Integer, primary_key=True)
     name = db.Column('name', db.String(50))
 
-    movies_available = db.relationship('MovieVoD', cascade='all, delete-orphan', backref='VoD', lazy=True)
+    groups = db.relationship('GroupVoD', cascade='all, delete-orphan', backref='vod', lazy=True)
+    movies_available = db.relationship('MovieVoD', cascade='all, delete-orphan', backref='vod', lazy=True)
 
 
 class MovieVoD(db.Model):
