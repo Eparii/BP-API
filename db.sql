@@ -61,7 +61,7 @@ CREATE TABLE group_t
 (
     id_group SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    group_code VARCHAR(6) UNIQUE DEFAULT substring(cast(gen_random_uuid() as text) from 1 for 6) NOT NULL,
+    group_code VARCHAR(6) UNIQUE DEFAULT substring(cast(gen_random_uuid() as text) from 1 for 6),
 
     id_owner INT REFERENCES user_t(id_user) ON DELETE SET NULL
 );
@@ -140,7 +140,7 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 --
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
- select * from group_t;
+select * from group_t;
 -- --
 --  INSERT INTO user_group_t (id_user, id_group) VALUES
 --      (4, 2);

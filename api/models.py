@@ -51,7 +51,7 @@ class Group(db.Model):
     __tablename__ = 'group_t'
     id = db.Column('id_group', db.Integer, primary_key=True)
     name = db.Column('name', db.String(50), nullable=False)
-    group_code = db.Column('group_code', db.String(6), nullable=False, unique=True)
+    group_code = db.Column('group_code', db.String(6), unique=True, server_default='substring(cast(gen_random_uuid(), String), 1, 6))')
 
     id_owner = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), nullable=False)
     members = db.relationship('UserGroup', cascade='all, delete-orphan', backref='group', lazy=True)

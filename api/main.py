@@ -126,7 +126,6 @@ class GroupAPI(Resource):
         new_group = Group(
             id_owner=int(request.json['user_id']),
             name=request.json['name'],
-            group_code='substring(cast(gen_random_uuid() as text) from 1 for 6)',
             genres=genres,
             vods=vods
         )
