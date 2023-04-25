@@ -30,6 +30,7 @@ def create_group_dict(group, members, matches, genres, vods):
             "id": group.id,
             "name": group.name,
             "owner": owner,
+            "group_code": group.group_code,
             "members": members,
             "matches": matches,
             "genres": genres,
