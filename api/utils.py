@@ -34,7 +34,6 @@ def create_user_groups_json(user_id):
     return groups_list
 
 
-
 def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
     if movie_id is None:
         swiped_movies = Swipe.query.filter_by(id_user=user_id)
@@ -64,6 +63,13 @@ def create_movies_json(movie_id, page_num, page_size, group_id, user_id):
         if movie is None:
             return "Not found", 404
         movie_dict = dicts.create_movie_dict(movie)
+        if user_id is not None:
+            swipe_type = 'none'
+            swiped_movies = Swipe.query.filter_by(id_user=user_id)
+            for swiped_movie in swiped_movies:
+                if swiped_movie.movie == movie:
+                    swipe_type = swiped_movie.type
+            movie_dict.update({"current_user_swipe": swipe_type})
         return movie_dict
 
 
@@ -80,26 +86,28 @@ def create_group_json(group_id):
     vod_names = [vod.vod.name for vod in group.vods]
     genre_names = [genre.genre.name for genre in group.genres]
     genre_ids = [genre.id_genre for genre in group.genres]
-    matches_ids = []
+    matches = []
     members = []
+
     for swipe in owner.swipes:
         if swipe.type == 'like':
-            matches_ids.append(swipe.id_movie)
+            matches.append({"id_movie": swipe.id_movie, "matched": 1})
     for member in group_members:
         user = User.query.filter_by(id=member.id_user).first()
         likes = []
         for swipe in user.swipes:
             if swipe.type == 'like':
                 likes.append(swipe.movie.id)
-        for match in matches_ids:
-            if match not in likes:
-                matches_ids.remove(match)
+        for match in matches:
+            if match["id_movie"] in likes:
+                match["matched"] += 1
         members.append(dicts.create_user_dict(user))
 
-    matches = [movie.id for movie in Movie.query.filter(Movie.id.in_(matches_ids),
-                                                        Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
-                                                        Movie.genres.any(MovieGenre.id_genre.in_(genre_ids)))]
+    filtered_matches = [movie.id for movie in Movie.query.filter(Movie.id.in_(match["id_movie"] for match in matches),
+                                                                 Movie.vods.any(MovieVoD.id_vod.in_(vod_ids)),
+                                                                 Movie.genres.any(MovieGenre.id_genre.in_(genre_ids)))]
 
+    matches = [match for match in matches if match["id_movie"] in filtered_matches and match["matched"] > 1]
     group_dict = dicts.create_group_dict(group, members, matches, genre_names, vod_names)
     return group_dict
 

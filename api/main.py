@@ -5,13 +5,31 @@ from api.models import Swipe, Movie, MovieGenre, MovieVoD, Group, Genre, GroupVo
 import hashlib
 
 
+def get_genres_and_vods():
+    vods = []
+    genres = []
+    for genre_name in request.json.get('genres'):
+        id_genre = Genre.query.filter_by(name=genre_name).first().id
+        genre = GroupGenre(id_genre=id_genre)
+        genres.append(genre)
+    for vod_name in request.json.get('vods'):
+        vod_id = None
+        if vod_name == 'Netflix':
+            vod_id = 1
+        else:
+            vod_id = 2
+        vod = GroupVoD(id_vod=vod_id)
+        vods.append(vod)
+    return genres, vods
+
+
 class LoginAPI(Resource):
     def post(self):
-        email = request.json['email']
+        email = request.json.get('email')
         user = User.query.filter_by(email=email).first()
         if user is None:
             return jsonify({'message': 'Email not found'}), 404
-        password = request.json['password']
+        password = request.json.get('password')
         password_hash = hashlib.sha256(password.encode()).hexdigest()
         if user.password_hash == password_hash:
             return {'message': 'Authentication successful', 'user_id': user.id}, 200
@@ -21,15 +39,15 @@ class LoginAPI(Resource):
 
 class RegisterAPI(Resource):
     def post(self):
-        email = request.json['email']
+        email = request.json.get('email')
         user = User.query.filter_by(email=email).first()
         if user is not None:
             return {'message': 'Email already exists'}, 409
-        password = request.json['password']
+        password = request.json.get('password')
         password_hash = hashlib.sha256(password.encode()).hexdigest()
         new_user = User(
-            first_name=request.json['first_name'],
-            last_name=request.json['last_name'],
+            first_name=request.json.get('first_name'),
+            last_name=request.json.get('last_name'),
             email=email,
             password_hash=password_hash
         )
@@ -48,6 +66,24 @@ class UserAPI(Resource):
             return user
         else:
             return jsonify(user=user)
+
+    def put(self):
+        user_id = int(request.json.get('user_id'))
+        first_name = request.json.get('first_name')
+        last_name = request.json.get('last_name')
+        email = request.json.get('email')
+        password = request.json.get('password')
+        user = User.query.filter_by(id_user=user_id).first()
+        if first_name is not None:
+            user.first_name = first_name
+        if last_name is not None:
+            user.last_name = last_name
+        if email is not None:
+            user.email = email
+        if password is not None:
+            user.password_hash = hashlib.sha256(password.encode()).hexdigest()
+        db.session.commit()
+        return "", 204
 
 
 class MovieAPI(Resource):
@@ -74,10 +110,10 @@ class MovieAPI(Resource):
     def post(self):
         genres = []
         vods = []
-        for genre_id in request.json['genres']:
+        for genre_id in request.json.get('genres'):
             genre = MovieGenre(id_genre=genre_id)
             genres.append(genre)
-        for vod_name in request.json['vods']:
+        for vod_name in request.json.get('vods'):
             if vod_name == 'Netflix':
                 vod_id = 1
             else:
@@ -85,12 +121,12 @@ class MovieAPI(Resource):
             vod = MovieVoD(id_vod=vod_id)
             vods.append(vod)
         new_movie = Movie(
-            name=request.json['name'],
-            release_year=request.json['release_year'],
-            image_url=request.json['image_url'],
-            rating=request.json['rating'],
-            description=request.json['description'],
-            tmdb_id=request.json['tmdb_id'],
+            name=request.json.get('name'),
+            release_year=request.json.get('release_year'),
+            image_url=request.json.get('image_url'),
+            rating=request.json.get('rating'),
+            description=request.json.get('description'),
+            tmdb_id=request.json.get('tmdb_id'),
             genres=genres,
             vods=vods
         )
@@ -109,27 +145,30 @@ class GroupAPI(Resource):
             return jsonify(group=group)
 
     def post(self):
-        genres = []
-        vods = []
-        for genre_name in request.json['genres']:
-            id_genre = Genre.query.filter_by(name=genre_name).first().id
-            genre = GroupGenre(id_genre=id_genre)
-            genres.append(genre)
-        for vod_name in request.json['vods']:
-            vod_id = None
-            if vod_name == 'Netflix':
-                vod_id = 1
-            else:
-                vod_id = 2
-            vod = GroupVoD(id_vod=vod_id)
-            vods.append(vod)
+        genres, vods = get_genres_and_vods()
         new_group = Group(
-            id_owner=int(request.json['user_id']),
-            name=request.json['name'],
+            id_owner=int(request.json.get('user_id')),
+            name=request.json.get('name'),
             genres=genres,
             vods=vods
         )
         db.session.add(new_group)
+        db.session.commit()
+        return "", 204
+
+    def put(self):
+        group_id = int(request.json.get('group_id')),
+        group = Group.query.filter_by(id=group_id).first()
+        old_genres = GroupGenre.query.filter_by(id_group=group_id)
+        old_vods = GroupVoD.query.filter_by(id_group=group_id)
+        old_genres.delete()
+        old_vods.delete()
+        name = request.json.get('name')
+        genres, vods = get_genres_and_vods()
+        group.vods = vods
+        group.genres = genres
+        if name is not None:
+            group.name = name
         db.session.commit()
         return "", 204
 
@@ -143,11 +182,11 @@ class GroupAPI(Resource):
 
 class GroupJoinAPI(Resource):
     def post(self):
-        group_code = request.json['group_code']
+        group_code = request.json.get('group_code')
         group = Group.query.filter_by(group_code=group_code).first()
         if group is None:
             return {'message': 'Invalid group code.'}, 400
-        user_id = int(request.json['user_id'])
+        user_id = int(request.json.get('user_id'))
         user = User.query.filter_by(id=user_id).first()
         if group in user.owner_groups or group in user.member_groups:
             return {'message': 'Already member'}, 400
@@ -160,19 +199,19 @@ class GroupJoinAPI(Resource):
 class SwipeAPI(Resource):
     def post(self):
         new_swipe = Swipe(
-            type=request.json['swipe_type'],
-            id_user=int(request.json['user_id']),
-            id_movie=int(request.json['movie_id']),
+            type=request.json.get('swipe_type'),
+            id_user=int(request.json.get('user_id')),
+            id_movie=int(request.json.get('movie_id')),
         )
         db.session.add(new_swipe)
         db.session.commit()
         return "", 204
 
     def put(self):
-        user_id = int(request.json['user_id']),
-        movie_id = int(request.json['movie_id']),
+        user_id = int(request.json.get('user_id')),
+        movie_id = int(request.json.get('movie_id')),
         swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id)[0]
-        swipe.type = request.json['swipe_type']
+        swipe.type = request.json.get('swipe_type')
         db.session.commit()
         return "", 204
 
