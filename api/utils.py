@@ -108,6 +108,7 @@ def create_group_json(group_id):
                                                                  Movie.genres.any(MovieGenre.id_genre.in_(genre_ids)))]
 
     matches = [match for match in matches if match["id_movie"] in filtered_matches and match["matched"] > 1]
+    matches = sorted(matches, key=lambda x: x["matched"], reverse=True)
     group_dict = dicts.create_group_dict(group, members, matches, genre_names, vod_names)
     return group_dict
 

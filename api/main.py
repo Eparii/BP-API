@@ -23,6 +23,43 @@ def get_genres_and_vods():
     return genres, vods
 
 
+class GroupManagementAPI(Resource):
+    def post(self):  # pripojeni se ke skupine
+        group_code = request.json.get('group_code')
+        group = Group.query.filter_by(group_code=group_code).first()
+        if group is None:
+            return {'message': 'Invalid group code.'}, 400
+        user_id = int(request.json.get('user_id'))
+        user = User.query.filter_by(id=user_id).first()
+        if group in user.owner_groups or group in user.member_groups:
+            return {'message': 'Already member'}, 400
+        new_group_member = UserGroup(id_group=group.id, id_user=user_id)
+        db.session.add(new_group_member)
+        db.session.commit()
+        return "", 204
+
+    def put(self):  # slouzi na zmenu majitele
+        new_owner_email = request.json.get('new_owner_email')
+        group_id = request.json.get('group_id')
+        new_owner = User.query.filter_by(email=new_owner_email).first()
+        new_member = UserGroup.query.filter_by(id_group=group_id, id_user=new_owner.id).first()
+        group = Group.query.filter_by(id=group_id).first()
+        old_owner_id = group.id_owner
+        group.id_owner = new_owner.id
+        new_member.id_user = old_owner_id
+        db.session.commit()
+        return "", 204
+
+    def delete(self):  # odstraneni clenu ze skupiny ci opusteni skupiny
+        group_id = request.args.get('group_id')
+        user_email = request.args.get('user_email')
+        user = User.query.filter_by(email=user_email).first()
+        user_group = UserGroup.query.filter_by(id_user=user.id, id_group=group_id).first()
+        db.session.delete(user_group)
+        db.session.commit()
+        return "", 204
+
+
 class LoginAPI(Resource):
     def post(self):
         email = request.json.get('email')
@@ -73,13 +110,10 @@ class UserAPI(Resource):
         last_name = request.json.get('last_name')
         email = request.json.get('email')
         password = request.json.get('password')
-        user = User.query.filter_by(id_user=user_id).first()
-        if first_name is not None:
-            user.first_name = first_name
-        if last_name is not None:
-            user.last_name = last_name
-        if email is not None:
-            user.email = email
+        user = User.query.filter_by(id=user_id).first()
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
         if password is not None:
             user.password_hash = hashlib.sha256(password.encode()).hexdigest()
         db.session.commit()
@@ -180,32 +214,28 @@ class GroupAPI(Resource):
         return "", 204
 
 
-class GroupJoinAPI(Resource):
-    def post(self):
-        group_code = request.json.get('group_code')
-        group = Group.query.filter_by(group_code=group_code).first()
-        if group is None:
-            return {'message': 'Invalid group code.'}, 400
-        user_id = int(request.json.get('user_id'))
-        user = User.query.filter_by(id=user_id).first()
-        if group in user.owner_groups or group in user.member_groups:
-            return {'message': 'Already member'}, 400
-        new_group_member = UserGroup(id_group=group.id, id_user=user_id)
-        db.session.add(new_group_member)
-        db.session.commit()
-        return "", 204
-
-
 class SwipeAPI(Resource):
     def post(self):
+        user_id = int(request.json.get('user_id'))
+        swipe_type = request.json.get('swipe_type')
+        movie_id = int(request.json.get('movie_id'))
         new_swipe = Swipe(
-            type=request.json.get('swipe_type'),
-            id_user=int(request.json.get('user_id')),
-            id_movie=int(request.json.get('movie_id')),
+            type=swipe_type,
+            id_user=user_id,
+            id_movie=movie_id,
         )
+        user = User.query.filter_by(id=user_id).first()
+        group_ids = [group.id_group for group in user.owner_groups] + [group.id_group for group in user.member_groups]
+        matched_groups = []
+        for group_id in group_ids:
+            group = utils.create_group_json(group_id)
+            group_members = len(group['members']) + 1  # + majitel
+            if any(match['id_movie'] == movie_id and match['matched'] == group_members for match in group['matches']):
+                matched_groups.append(group['name'])
         db.session.add(new_swipe)
         db.session.commit()
-        return "", 204
+        response = ",".join(matched_groups) if matched_groups else ""
+        return response, 204
 
     def put(self):
         user_id = int(request.json.get('user_id')),

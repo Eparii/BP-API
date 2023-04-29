@@ -140,7 +140,7 @@ INSERT INTO user_group_t (id_user, id_group) VALUES
 --
 -- INSERT INTO user_event_t (id_user, id_event) VALUES
 --     (2, 1), (3, 1)
-select * from group_t;
+select * from user_t;
 -- --
 --  INSERT INTO user_group_t (id_user, id_group) VALUES
 --      (4, 2);
