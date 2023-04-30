@@ -226,14 +226,14 @@ class SwipeAPI(Resource):
         )
         user = User.query.filter_by(id=user_id).first()
         group_ids = [group.id_group for group in user.owner_groups] + [group.id_group for group in user.member_groups]
+        db.session.add(new_swipe)
+        db.session.commit()
         matched_groups = []
         for group_id in group_ids:
             group = utils.create_group_json(group_id)
             group_members = len(group['members']) + 1  # + majitel
             if any(match['id_movie'] == movie_id and match['matched'] == group_members for match in group['matches']):
                 matched_groups.append(group['name'])
-        db.session.add(new_swipe)
-        db.session.commit()
         response_data = {
             "message": "success",
             "matched_groups": matched_groups
