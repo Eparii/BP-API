@@ -234,8 +234,11 @@ class SwipeAPI(Resource):
                 matched_groups.append(group['name'])
         db.session.add(new_swipe)
         db.session.commit()
-        response = ",".join(matched_groups) if matched_groups else ""
-        return response, 204
+        response_data = {
+            "message": "success",
+            "matched_groups": matched_groups
+        }
+        return response_data, 200
 
     def put(self):
         user_id = int(request.json.get('user_id')),
