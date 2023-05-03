@@ -26,6 +26,6 @@ def create_app(config_class=None):
     my_api.add_resource(SwipeAPI, '/swipe')
     my_api.add_resource(LoginAPI, '/login')
     my_api.add_resource(RegisterAPI, '/register')
-    my_api.add_resource(GroupManagementAPI, '/groupManagement')
+    my_api.add_resource(GroupManagementAPI, '/group-management')
 
     return app
