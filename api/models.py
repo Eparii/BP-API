@@ -32,7 +32,7 @@ class Movie(db.Model):
 class Swipe(db.Model):
     __tablename__ = 'swipe_t'
     id = db.Column('id_swipe', db.Integer, primary_key=True)
-    type = db.Column('type', db.Enum('like', 'dislike', 'skip'), nullable=False)
+    type = db.Column('type', db.Enum('like', 'dislike', 'seen'), nullable=False)
 
     id_user = db.Column(db.Integer, db.ForeignKey('user_t.id_user'), nullable=False)
     id_movie = db.Column(db.Integer, db.ForeignKey('movie_t.id_movie'), nullable=False)

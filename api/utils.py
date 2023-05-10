@@ -7,15 +7,20 @@ def create_user_swipes_json(user_id):
         return "Bad request", 400
     likes = []
     dislikes = []
+    seen = []
     likes_query = Swipe.query.filter_by(id_user=user_id, type='like')
     dislikes_query = Swipe.query.filter_by(id_user=user_id, type='dislike')
+    seen_query = Swipe.query.filter_by(id_user=user_id, type='seen')
     for like in likes_query:
         likes.append(dicts.create_swipe_dict(like))
     for dislike in dislikes_query:
         dislikes.append(dicts.create_swipe_dict(dislike))
+    for seen_movie in seen_query:
+        seen.append(seen_movie)
     swipes_dict = {
         "likes": likes,
-        "dislikes": dislikes
+        "dislikes": dislikes,
+        "seen": seen
     }
     return swipes_dict
 
