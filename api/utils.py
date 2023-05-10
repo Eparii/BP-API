@@ -16,7 +16,7 @@ def create_user_swipes_json(user_id):
     for dislike in dislikes_query:
         dislikes.append(dicts.create_swipe_dict(dislike))
     for seen_movie in seen_query:
-        seen.append(seen_movie)
+        seen.append(dicts.create_swipe_dict(seen_movie))
     swipes_dict = {
         "likes": likes,
         "dislikes": dislikes,
