@@ -208,7 +208,7 @@ class GroupAPI(Resource):
 
     def delete(self):
         group_id = int(request.args.get('group_id'))
-        group = Group.query.filter_by(id=group_id)[0]
+        group = Group.query.filter_by(id=group_id).first()
         db.session.delete(group)
         db.session.commit()
         return "", 204
@@ -241,17 +241,36 @@ class SwipeAPI(Resource):
         return response_data, 200
 
     def put(self):
-        user_id = int(request.json.get('user_id')),
         movie_id = int(request.json.get('movie_id')),
-        swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id)[0]
-        swipe.type = request.json.get('swipe_type')
+        swipe_type = request.json.get('swipe_type')
+        group_id = request.json.get('group_id')
+        if group_id is not None:
+            group = Group.query.filter_by(id=group_id).first()
+            member_ids = [user.id_user for user in group.members] + [group.id_owner]
+            for member_id in member_ids:
+                user_swipe = Swipe.query.filter_by(id_user=member_id, id_movie=movie_id).first()
+                if user_swipe is None:
+                    new_swipe = Swipe(
+                        type=swipe_type,
+                        id_user=member_id,
+                        id_movie=movie_id,
+                    )
+                    db.session.add(new_swipe)
+                else:
+                    user_swipe.type = swipe_type
+        else:
+            user_id = int(request.json.get('user_id')),
+            swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id).first()
+            swipe.type = swipe_type
         db.session.commit()
         return "", 204
 
     def delete(self):
         movie_id = int(request.args.get('movie_id'))
         user_id = int(request.args.get('user_id'))
-        swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id)[0]
+        swipe = Swipe.query.filter_by(id_user=user_id, id_movie=movie_id).first()
         db.session.delete(swipe)
         db.session.commit()
         return "", 204
+
+

@@ -9,8 +9,8 @@ class User(db.Model):
     email = db.Column('email', db.String(255), nullable=False, unique=True)
     password_hash = db.Column('password_hash', db.String(64), nullable=False)
 
-    member_groups = db.relationship('Group', cascade='all, delete-orphan', backref='member', lazy=True)
-    owner_groups = db.relationship('UserGroup', cascade='all, delete-orphan', backref='owner', lazy=True)
+    owner_groups = db.relationship('Group', cascade='all, delete-orphan', backref='owner', lazy=True)
+    member_groups = db.relationship('UserGroup', cascade='all, delete-orphan', backref='member', lazy=True)
     swipes = db.relationship('Swipe', cascade='all, delete-orphan', backref='user', lazy=True)
 
 
