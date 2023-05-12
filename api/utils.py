@@ -17,6 +17,9 @@ def create_user_swipes_json(user_id):
         dislikes.append(dicts.create_swipe_dict(dislike))
     for seen_movie in seen_query:
         seen.append(dicts.create_swipe_dict(seen_movie))
+    likes.sort(key=lambda x: x['id'], reverse=True)
+    dislikes.sort(key=lambda x: x['id'], reverse=True)
+    seen.sort(key=lambda x: x['id'], reverse=True)
     swipes_dict = {
         "likes": likes,
         "dislikes": dislikes,
