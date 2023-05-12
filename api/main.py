@@ -225,7 +225,7 @@ class SwipeAPI(Resource):
             id_movie=movie_id,
         )
         user = User.query.filter_by(id=user_id).first()
-        group_ids = [group.id_group for group in user.owner_groups] + [group.id_group for group in user.member_groups]
+        group_ids = [group.id for group in user.owner_groups] + [group.id_group for group in user.member_groups]
         db.session.add(new_swipe)
         db.session.commit()
         matched_groups = []
