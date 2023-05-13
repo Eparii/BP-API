@@ -1,6 +1,6 @@
 from time import strftime
 
-from api.models import MovieGenre, Genre, User
+from api.models import MovieGenre, Genre, User, VoD, MovieVoD
 
 
 def create_user_dict(user):
@@ -47,10 +47,15 @@ def create_group_dict(group, members, matches, genres, vods):
 
 def create_movie_dict(movie):
     genres = []
+    vods = []
     movie_genres = MovieGenre.query.filter_by(id_movie=movie.id)
+    movie_vods = MovieVoD.query.filter_by(id_movie=movie.id)
     for movie_genre in movie_genres:
         genre = Genre.query.filter_by(id=movie_genre.id_genre).first()
         genres.append(genre.name)
+    for movie_vod in movie_vods:
+        vod = VoD.query.filter_by(id=movie_vod.id_vod).first()
+        vods.append(vod.name)
     movie_dict = {
         "id": movie.id,
         "name": movie.name,
@@ -59,7 +64,8 @@ def create_movie_dict(movie):
         "image_url": movie.image_url,
         "description": movie.description,
         "tmdb_id": movie.tmdb_id,
-        "genres": genres
+        "genres": genres,
+        "vods": vods
     }
     return movie_dict
 
