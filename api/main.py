@@ -117,7 +117,7 @@ class UserAPI(Resource):
         if password is not None:
             user.password_hash = hashlib.sha256(password.encode()).hexdigest()
         db.session.commit()
-        return "", 204
+        return {'message': 'Profile info changed successfully'}, 201
 
 
 class MovieAPI(Resource):
