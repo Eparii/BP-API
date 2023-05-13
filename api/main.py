@@ -36,7 +36,7 @@ class GroupManagementAPI(Resource):
         new_group_member = UserGroup(id_group=group.id, id_user=user_id)
         db.session.add(new_group_member)
         db.session.commit()
-        return "", 204
+        return {'message': 'Group joined successfully'}, 201
 
     def put(self):  # slouzi na zmenu majitele
         new_owner_email = request.json.get('new_owner_email')
@@ -48,7 +48,7 @@ class GroupManagementAPI(Resource):
         group.id_owner = new_owner.id
         new_member.id_user = old_owner_id
         db.session.commit()
-        return "", 204
+        return {'message': 'Owner changed successfully'}, 201
 
     def delete(self):  # odstraneni clenu ze skupiny ci opusteni skupiny
         group_id = request.args.get('group_id')
@@ -57,7 +57,7 @@ class GroupManagementAPI(Resource):
         user_group = UserGroup.query.filter_by(id_user=user.id, id_group=group_id).first()
         db.session.delete(user_group)
         db.session.commit()
-        return "", 204
+        return {'message': 'Member removed successfully'}, 201
 
 
 class LoginAPI(Resource):
@@ -188,7 +188,7 @@ class GroupAPI(Resource):
         )
         db.session.add(new_group)
         db.session.commit()
-        return "", 204
+        return {'message': 'Group created successfully'}, 201
 
     def put(self):
         group_id = int(request.json.get('group_id')),
@@ -204,14 +204,14 @@ class GroupAPI(Resource):
         if name is not None:
             group.name = name
         db.session.commit()
-        return "", 204
+        return {'message': 'Group modified successfully'}, 201
 
     def delete(self):
         group_id = int(request.args.get('group_id'))
         group = Group.query.filter_by(id=group_id).first()
         db.session.delete(group)
         db.session.commit()
-        return "", 204
+        return {'message': 'Group deleted successfully'}, 201
 
 
 class SwipeAPI(Resource):
